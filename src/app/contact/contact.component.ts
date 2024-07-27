@@ -21,9 +21,17 @@ export class ContactComponent implements OnInit {
   description: string = '';
   contacts: { nom: string; prenom: string; email: string; telephone: string; createdAt: Date; updatedAt: Date; createdBy: string; updatedAtBy: string , description: string }[] = [];
 
+  selectedContact: any = null; // Define the selectedContact property
+  filteredContacts : any =null;
+  searchTerm: string = ''; // Search term property
+
   ngOnInit(): void {
     this.loadContacts();
+    this.filteredContacts = this.contacts; // Initialize filtered contacts with all contacts
   }
+
+
+
 
   addContact(): void {
     if (this.nom && this.prenom && this.email) {
@@ -57,8 +65,27 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  viewDetails(index: number): void {
-    // Logic to view contact details
-    alert(`Details for ${this.contacts[index].nom} ${this.contacts[index].prenom}`);
+
+
+  viewDetails(contact: any): void {
+    this.selectedContact = contact;
+  }
+
+  closeDetails(): void {
+    this.selectedContact = null;
+  }
+  searchContacts(): void {
+    if (!this.searchTerm) {
+      this.filteredContacts = this.contacts;
+    } else {
+      const term = this.searchTerm.toLowerCase();
+      this.filteredContacts = this.contacts.filter(contact =>
+        contact.nom.toLowerCase().includes(term) ||
+        contact.prenom.toLowerCase().includes(term) ||
+        contact.email.toLowerCase().includes(term) ||
+        contact.telephone.toLowerCase().includes(term)
+      );
+    }
   }
 }
+

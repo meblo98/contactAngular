@@ -88,6 +88,31 @@
     </div>
   </div>
 </section>
+
+ <!-- Faire une recherche de Contact -->
+  <!-- <div class="row">
+    <div class="col-12">
+      <form class="d-flex" > -->
+          <!-- [(ngModel)]="searchTerm" (input)="searchContacts()" -->
+
+        <!-- <input type="text" class="form-control mb-2 me-2" style="width:20%; margin-left: 10rem;"  placeholder="Rechercher un contact..." >
+        <button class="btn btn-outline-success" style="height: 37px;"  type="submit">Rechercher</button>
+      </form>
+    </div>
+  </div> -->
+  <input type="text" class="form-control mb-3" placeholder="Rechercher un contact..." [(ngModel)]="searchTerm" (input)="searchContacts()">
+
+  <table *ngIf="filteredContacts.length > 0">
+    <tbody>
+      <tr *ngFor="let contact of filteredContacts; let i = index">
+        <td (click)="viewDetails(contact)">
+          {{ contact.nom }} {{ contact.prenom }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<!-- Table of Contacts -->
 <table *ngIf="contacts.length > 0">
   <thead>
     <tr>
@@ -101,10 +126,33 @@
       <td>{{ contact.nom }} {{ contact.prenom }}</td>
       <td>{{ contact.telephone }}</td>
       <td>
-        <button (click)="viewDetails(i)">Voir Détails</button>
-      </td>
+        <button (click)="viewDetails(contact)" class="btn btn-info">Voir Détails</button>      </td>
     </tr>
   </tbody>
 </table>
 
 
+<!-- Modal for Contact Details -->
+<div *ngIf="selectedContact" class="modal" tabindex="-1" style="display: block;" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Détails du Contact</h5>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nom:</strong> {{ selectedContact.nom }}</p>
+        <p><strong>Prénom:</strong> {{ selectedContact.prenom }}</p>
+        <p><strong>Email:</strong> {{ selectedContact.email }}</p>
+        <p><strong>Téléphone:</strong> {{ selectedContact.telephone }}</p>
+        <p><strong>Créé le:</strong> {{ selectedContact.createdAt | date }}</p>
+        <p><strong>Modifié le:</strong> {{ selectedContact.updatedAt | date }}</p>
+        <p><strong>Créé par:</strong> {{ selectedContact.createdBy }}</p>
+        <p><strong>Modifié par:</strong> {{ selectedContact.updatedBy }}</p>
+        <p><strong>Description:</strong> {{ selectedContact.description }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDetails()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
