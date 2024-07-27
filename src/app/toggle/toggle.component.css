@@ -1,4 +1,4 @@
-/* html,
+html,
 body * {
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif
@@ -504,29 +504,3 @@ a.btn-goback:hover {
     fill: #1059FF;
     transform: rotate(180deg)
 }
-.form-styling {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.btn-signin, .btn-signup {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-signin:hover, .btn-signup:hover {
-  background-color: #0056b3;
-}
-
-.error {
-  color: red;
-}
-
-.success {
-  color: green;
-} */
