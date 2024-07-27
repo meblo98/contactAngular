@@ -90,30 +90,56 @@
 </section>
 
  <!-- Faire une recherche de Contact -->
-  <!-- <div class="row">
-    <div class="col-12">
-      <form class="d-flex" > -->
-          <!-- [(ngModel)]="searchTerm" (input)="searchContacts()" -->
+  <!-- <input type="text" class="form-control mb-3" placeholder="Rechercher un contact..." [(ngModel)]="searchTerm" (input)="searchContacts()"> -->
+  <div class="p-4 p-xl-5 border-top">
+    <div class="row gy-3 gy-md-4 justify-content-between">
+      <div class="col-12">
+        <label for="search" class="form-label">Chercher un contact</label>
+        <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="searchContacts()" placeholder="Nom, prénom, email, téléphone">
+      </div>
 
-        <!-- <input type="text" class="form-control mb-2 me-2" style="width:20%; margin-left: 10rem;"  placeholder="Rechercher un contact..." >
-        <button class="btn btn-outline-success" style="height: 37px;"  type="submit">Rechercher</button>
-      </form>
-    </div>
-  </div> -->
-  <input type="text" class="form-control mb-3" placeholder="Rechercher un contact..." [(ngModel)]="searchTerm" (input)="searchContacts()">
 
-  <table *ngIf="filteredContacts.length > 0">
+ <!-- <table *ngIf="filteredContacts.length > 0">
+  <tbody>
+    <tr *ngFor="let contact of filteredContacts; let i = index">
+      <td (click)="viewDetails(contact)">
+        {{ contact.nom }} {{ contact.prenom }}
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<div class="col-12">
+  <div *ngIf="filteredContacts.length === 0">Le contact n'existe pas.</div>
+  <table class="table" *ngIf="filteredContacts.length > 0">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
     <tbody>
-      <tr *ngFor="let contact of filteredContacts; let i = index">
-        <td (click)="viewDetails(contact)">
-          {{ contact.nom }} {{ contact.prenom }}
+      <tr *ngFor="let contact of filteredContacts">
+        <td>{{ contact.nom }}</td>
+        <td>{{ contact.prenom }}</td>
+        <td>{{ contact.email }}</td>
+        <td>{{ contact.telephone }}</td>
+        <td>
+          <button class="btn btn-info" (click)="viewDetails(contact)">Voir les détails</button>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+
+
+
 
 <!-- Table of Contacts -->
-<table *ngIf="contacts.length > 0">
+<!-- <table *ngIf="contacts.length > 0">
   <thead>
     <tr>
       <th>Nom et Prenom</th>
@@ -126,10 +152,10 @@
       <td>{{ contact.nom }} {{ contact.prenom }}</td>
       <td>{{ contact.telephone }}</td>
       <td>
-        <button (click)="viewDetails(contact)" class="btn btn-info">Voir Détails</button>      </td>
+        <button (click)="viewDetails(contact)" class="btn btn-info">Voir Détails</button></td>
     </tr>
   </tbody>
-</table>
+</table> -->
 
 
 <!-- Modal for Contact Details -->

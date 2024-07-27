@@ -14,28 +14,25 @@ export class ContactComponent implements OnInit {
   prenom: string = '';
   email: string = '';
   telephone: string = '';
-  createdAt: Date = new Date(); // date de création
-  updatedAt: Date = new Date(); // date de modification
+  createdAt: Date = new Date();
+  updatedAt: Date = new Date();
   createdBy: string = '';
-  updatedBy: string = ''; // utilisateur
+  updatedBy: string = '';
   description: string = '';
-  contacts: { nom: string; prenom: string; email: string; telephone: string; createdAt: Date; updatedAt: Date; createdBy: string; updatedAtBy: string , description: string }[] = [];
+  contacts: { nom: string; prenom: string; email: string; telephone: string; createdAt: Date; updatedAt: Date; createdBy: string; updatedBy: string ; description: string }[] = [];
 
-  selectedContact: any = null; // Define the selectedContact property
-  filteredContacts : any =null;
-  searchTerm: string = ''; // Search term property
+  selectedContact: any = null;
+  filteredContacts: any[] = [];
+  searchTerm: string = '';
 
   ngOnInit(): void {
     this.loadContacts();
-    this.filteredContacts = this.contacts; // Initialize filtered contacts with all contacts
+    this.filteredContacts = this.contacts;
   }
-
-
-
 
   addContact(): void {
     if (this.nom && this.prenom && this.email) {
-      this.contacts.push({ nom: this.nom, prenom: this.prenom, email: this.email, telephone: this.telephone ,createdAt: new Date(), updatedAt: new Date(),createdBy: 'User1', updatedAtBy: 'User1', description: this.description });
+      this.contacts.push({ nom: this.nom, prenom: this.prenom, email: this.email, telephone: this.telephone ,createdAt: new Date(), updatedAt: new Date(),createdBy: 'User1', updatedBy: 'User1', description: this.description });
       this.saveContacts();
       this.nom = '';
       this.prenom = '';
@@ -46,7 +43,7 @@ export class ContactComponent implements OnInit {
       this.createdBy = 'User1';
       this.updatedBy = 'User1';
       this.description = '';
-
+      this.filteredContacts = this.contacts;
     }
   }
 
@@ -65,8 +62,6 @@ export class ContactComponent implements OnInit {
     }
   }
 
-
-
   viewDetails(contact: any): void {
     this.selectedContact = contact;
   }
@@ -74,6 +69,7 @@ export class ContactComponent implements OnInit {
   closeDetails(): void {
     this.selectedContact = null;
   }
+
   searchContacts(): void {
     if (!this.searchTerm) {
       this.filteredContacts = this.contacts;
@@ -88,4 +84,3 @@ export class ContactComponent implements OnInit {
     }
   }
 }
-
