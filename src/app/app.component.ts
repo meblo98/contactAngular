@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
-import { ToggleComponent } from './toggle/toggle.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
