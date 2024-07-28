@@ -90,24 +90,12 @@
 </section>
 
  <!-- Faire une recherche de Contact -->
-  <!-- <input type="text" class="form-control mb-3" placeholder="Rechercher un contact..." [(ngModel)]="searchTerm" (input)="searchContacts()"> -->
   <div class="p-4 p-xl-5 border-top">
     <div class="row gy-3 gy-md-4 justify-content-between">
       <div class="col-12">
         <label for="search" class="form-label">Chercher un contact</label>
         <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="searchContacts()" placeholder="Nom, prénom, email, téléphone">
       </div>
-
-
- <!-- <table *ngIf="filteredContacts.length > 0">
-  <tbody>
-    <tr *ngFor="let contact of filteredContacts; let i = index">
-      <td (click)="viewDetails(contact)">
-        {{ contact.nom }} {{ contact.prenom }}
-      </td>
-    </tr>
-  </tbody>
-</table> -->
 
 <div class="col-12">
   <div *ngIf="filteredContacts.length === 0">Le contact n'existe pas.</div>
@@ -134,28 +122,6 @@
     </tbody>
   </table>
 </div>
-
-
-
-
-<!-- Table of Contacts -->
-<!-- <table *ngIf="contacts.length > 0">
-  <thead>
-    <tr>
-      <th>Nom et Prenom</th>
-      <th>Telephone</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let contact of contacts; let i = index">
-      <td>{{ contact.nom }} {{ contact.prenom }}</td>
-      <td>{{ contact.telephone }}</td>
-      <td>
-        <button (click)="viewDetails(contact)" class="btn btn-info">Voir Détails</button></td>
-    </tr>
-  </tbody>
-</table> -->
 
 
 <!-- Modal for Contact Details -->
