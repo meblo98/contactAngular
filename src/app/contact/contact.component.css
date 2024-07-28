@@ -1,0 +1,29 @@
+table {
+  width: 70%;
+  border-collapse: collapse;
+  margin: auto;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+
+th {
+  background-color: #f4f4f4;
+}
+
+h1{
+  text-align: center;
+  justify-content: center;
+  padding: 10px;
+  align-items: center;
+  margin: auto;
+}
+
+
+.table thead th {
+  background-color: #343a40;
+  color: white;
+}
