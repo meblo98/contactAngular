@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DetailContactComponent } from '../detail-contact/detail-contact.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,DetailContactComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
@@ -24,6 +25,7 @@ export class ContactComponent implements OnInit {
   selectedContact: any = null;
   filteredContacts: any[] = [];
   searchTerm: string = '';
+  contactToEdit: any = null;
 
   ngOnInit(): void {
     this.loadContacts();
@@ -32,7 +34,7 @@ export class ContactComponent implements OnInit {
   
 
   addContact(): void {
-    if (this.nom && this.prenom && this.email) {
+    if (this.nom && this.prenom && this.email && this.telephone) {
       this.contacts.push({ nom: this.nom, prenom: this.prenom, email: this.email, telephone: this.telephone ,createdAt: new Date(), updatedAt: new Date(),createdBy: 'User1', updatedBy: 'User1', description: this.description });
       this.saveContacts();
       this.nom = '';
@@ -84,4 +86,23 @@ export class ContactComponent implements OnInit {
       );
     }
   }
+
+
+  editContact(contact: any): void {
+    this.contactToEdit = { ...contact };
+  }
+
+  updateContact(): void {
+    const index = this.contacts.findIndex(c => c.email === this.contactToEdit.email);
+    if (index !== -1) {
+      this.contacts[index] = this.contactToEdit;
+      this.saveContacts();
+      this.contactToEdit = null;
+    }
+  }
+
+  closeEdit(): void {
+    this.contactToEdit = null;
+  }
+
 }
