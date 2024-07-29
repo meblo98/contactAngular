@@ -89,6 +89,14 @@
   </div>
 </section>
 
+<div class="col-12">
+  <!-- Bouton pour afficher/masquer les contacts supprimés -->
+  <button class="btn btn-warning" (click)="showDeletedContacts()">
+    {{ showDeleted ? 'Cacher la corbeille' : 'Afficher la corbeille' }}
+  </button>
+</div>
+
+
  <!-- Faire une recherche de Contact -->
   <div class="p-4 p-xl-5 border-top">
     <div class="row gy-3 gy-md-4 justify-content-between">
@@ -97,31 +105,39 @@
         <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="searchContacts()" placeholder="Nom, prénom, email, téléphone">
       </div>
 
-<div class="col-12">
-  <div *ngIf="filteredContacts.length === 0">Le contact n'existe pas.</div>
-  <table class="table" *ngIf="filteredContacts.length > 0">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Email</th>
-        <th>Téléphone</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let contact of filteredContacts">
-        <td>{{ contact.nom }}</td>
-        <td>{{ contact.prenom }}</td>
-        <td>{{ contact.email }}</td>
-        <td>{{ contact.telephone }}</td>
-        <td>
-          <button class="btn btn-info" (click)="viewDetails(contact)">Voir les détails</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+      <div class="col-12 mt-3">
+        <!-- Afficher les contacts supprimés -->
+        <div *ngIf="filteredContacts.length === 0">Le contact n'existe pas.</div>
+        <table class="table" *ngIf="filteredContacts.length > 0">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let contact of filteredContacts">
+              <td>{{ contact.nom }}</td>
+              <td>{{ contact.prenom }}</td>
+              <td>{{ contact.email }}</td>
+              <td>{{ contact.telephone }}</td>
+              <td>
+                <button class="btn btn-info" (click)="viewDetails(contact)">Voir les détails</button>
+                
+                <!-- Afficher le bouton Supprimer seulement pour les contacts non supprimés -->
+                <button *ngIf="!contact.isDeleted" class="btn btn-danger" (click)="moveToTrash(contact)">Supprimer</button>
+                
+                <!-- Afficher le bouton Restaurer seulement pour les contacts supprimés -->
+                <button *ngIf="contact.isDeleted" class="btn btn-success" (click)="restoreContact(contact)">Restaurer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
 
 
 <!-- Modal for Contact Details -->
