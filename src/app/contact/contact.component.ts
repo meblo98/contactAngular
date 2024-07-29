@@ -22,14 +22,13 @@ interface Contact {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule,DetailContactComponent,NavbarComponent],
+  imports: [CommonModule, FormsModule, DetailContactComponent, NavbarComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
-  constructor(private router: Router){
+  constructor(private router: Router) {}
 
-  }
   nom: string = '';
   prenom: string = '';
   email: string = '';
@@ -41,18 +40,14 @@ export class ContactComponent implements OnInit {
   selectedContact: Contact | null = null;
   filteredContacts: Contact[] = [];
   searchTerm: string = '';
-
   contactToEdit: any = null;
-
   currentUser: string = '';
   showDeleted: boolean = false;
-
 
   ngOnInit(): void {
     this.loadCurrentUser();
     this.loadContacts();
     this.filterContactsByUser();
-
   }
 
   loadCurrentUser(): void {
@@ -63,17 +58,15 @@ export class ContactComponent implements OnInit {
       }
     }
   }
-  logout() {
 
+  logout(): void {
     localStorage.removeItem('currentUser');
-
-    // Rediriger vers la page de connexion
     this.router.navigate(['/utilisateur']);
   }
-  addContact(): void {
 
+  addContact(): void {
     if (this.nom && this.prenom && this.email) {
-      const newContact: Contact = ({
+      const newContact: Contact = {
         nom: this.nom,
         prenom: this.prenom,
         email: this.email,
@@ -83,17 +76,12 @@ export class ContactComponent implements OnInit {
         createdBy: this.currentUser,
         updatedBy: this.currentUser,
         description: this.description
-      });
-      this.saveContacts();
-      this.nom = '';
-      this.prenom = '';
-      this.email = '';
-      this.telephone = '';
-      this.createdAt = new Date();
-      this.updatedAt = new Date();
-      this.description = '';
-      this.filterContactsByUser();
+      };
 
+      this.contacts.push(newContact);
+      this.saveContacts();
+      this.resetForm();
+      this.filterContactsByUser();
     }
   }
 
@@ -104,30 +92,30 @@ export class ContactComponent implements OnInit {
   loadContacts(): void {
     const contacts = localStorage.getItem('contacts');
     if (contacts) {
-      this.contacts = JSON.parse(contacts);
-      this.updateFilteredContacts();
+      try {
+        this.contacts = JSON.parse(contacts);
+        this.updateFilteredContacts();
+      } catch (error) {
+        console.error('Erreur lors du parsing des contacts depuis le localStorage:', error);
+        this.contacts = []; // Réinitialiser les contacts si l'erreur persiste
+      }
     }
   }
 
-
-
   filterContactsByUser(): void {
-    this.filteredContacts = this.contacts.filter(contact => contact.createdBy === this.currentUser);
+    this.filteredContacts = this.contacts.filter(contact => contact.createdBy === this.currentUser && !contact.isDeleted);
   }
-
-  // viewDetails(contact: any): void {
 
   updateFilteredContacts(): void {
     if (this.showDeleted) {
-      this.filteredContacts = this.contacts.filter(contact => contact.isDeleted);
+      this.filteredContacts = this.contacts.filter(contact => contact.createdBy === this.currentUser && contact.isDeleted);
     } else {
-      this.filteredContacts = this.contacts.filter(contact => !contact.isDeleted);
+      this.filteredContacts = this.contacts.filter(contact => contact.createdBy === this.currentUser && !contact.isDeleted);
     }
     this.searchContacts();
   }
 
   viewDetails(contact: Contact): void {
-
     this.selectedContact = contact;
   }
 
@@ -136,19 +124,6 @@ export class ContactComponent implements OnInit {
   }
 
   searchContacts(): void {
-// <<<<<<< HEAD
-//     if (!this.searchTerm) {
-//       this.filterContactsByUser();
-//     } else {
-//       const term = this.searchTerm.toLowerCase();
-//       this.filteredContacts = this.contacts.filter(contact =>
-//         contact.createdBy === this.currentUser &&
-//         (contact.nom.toLowerCase().includes(term) ||
-//         contact.prenom.toLowerCase().includes(term) ||
-//         contact.email.toLowerCase().includes(term) ||
-//         contact.telephone.toLowerCase().includes(term))
-//       );
-// =======
     const term = this.searchTerm.toLowerCase();
     this.filteredContacts = this.filteredContacts.filter(contact =>
       contact.nom.toLowerCase().includes(term) ||
@@ -161,20 +136,16 @@ export class ContactComponent implements OnInit {
   moveToTrash(contact: Contact): void {
     const confirmation = window.confirm('Êtes-vous sûr de vouloir déplacer ce contact dans la corbeille ?');
     if (confirmation) {
-      console.log('Contact avant suppression:', contact);
       const index = this.contacts.findIndex(c => c === contact);
       if (index !== -1) {
         this.contacts[index].isDeleted = true;
         this.saveContacts();
         this.updateFilteredContacts();
-        console.log('Contact après suppression:', this.contacts[index]);
       }
     }
   }
 
-
-
-  editContact(contact: any): void {
+  editContact(contact: Contact): void {
     this.contactToEdit = { ...contact };
   }
 
@@ -184,6 +155,7 @@ export class ContactComponent implements OnInit {
       this.contacts[index] = this.contactToEdit;
       this.saveContacts();
       this.contactToEdit = null;
+      this.filterContactsByUser();
     }
   }
 
@@ -191,7 +163,6 @@ export class ContactComponent implements OnInit {
     this.contactToEdit = null;
   }
 
-// =======
   restoreContact(contact: Contact): void {
     const index = this.contacts.findIndex(c => c === contact);
     if (index !== -1) {
@@ -206,10 +177,6 @@ export class ContactComponent implements OnInit {
     this.updateFilteredContacts();
   }
 
-  getDeletedContacts(): Contact[] {
-    return this.contacts.filter(contact => contact.isDeleted);
-  }
-
   private resetForm(): void {
     this.nom = '';
     this.prenom = '';
@@ -219,5 +186,4 @@ export class ContactComponent implements OnInit {
     this.updatedAt = new Date();
     this.description = '';
   }
-
 }

@@ -16,7 +16,7 @@
         <label for="checkbox"><span class="ui"></span>Garder ma session ouverte</label>
         <div class="btn-animate"><button type="submit" class="btn-signin">Connexion</button></div>
       </form>
-
+      
       <form *ngIf="isSignupMode" [formGroup]="signupForm" (ngSubmit)="register()" class="form-signup">
         <label for="prenom">Prénom</label>
         <input formControlName="prenom" class="form-styling" type="text" placeholder="Prénom" />
