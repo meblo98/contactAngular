@@ -89,6 +89,14 @@
   </div>
 </section>
 
+<div class="col-12">
+  <!-- Bouton pour afficher/masquer les contacts supprimés -->
+  <button class="btn btn-warning" (click)="showDeletedContacts()">
+    {{ showDeleted ? 'Cacher la corbeille' : 'Afficher la corbeille' }}
+  </button>
+</div>
+
+
  <!-- Faire une recherche de Contact -->
   <div class="p-4 p-xl-5 border-top">
     <div class="row gy-3 gy-md-4 justify-content-between">
@@ -97,6 +105,7 @@
         <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="searchContacts()" placeholder="Nom, prénom, email, téléphone">
       </div>
 
+<!-- <<<<<<< HEAD -->
 <div class="col-12">
   <div *ngIf="filteredContacts.length === 0">Le contact n'existe pas.</div>
   <table class="table" *ngIf="filteredContacts.length > 0">
@@ -127,12 +136,15 @@
               <path d="M12.854.146a.5.5 0 0 1 .708.708l-11 11a.5.5 0 0 1-.168.11l-4 1a.5.5 0 0 1-.641-.641l1-4a.5.5 0 0 1 .11-.168l11-11zM11.207 2l-.646-.646L4.5 7.414 5.146 8 11.207 2zM1.5 13.207l2.646-2.647-.707-.707L.793 12.5l-.5 2 2-.5zm5.354-6.5L3.5 10.5v.793l.293.293h.793l3.354-3.354-.707-.707z"/>
             </svg>
           </button>
+           <!-- Afficher le bouton Supprimer seulement pour les contacts non supprimés -->
+           <button *ngIf="!contact.isDeleted" class="btn btn-danger" (click)="moveToTrash(contact)">Supprimer</button>
+            <!-- Afficher le bouton Restaurer seulement pour les contacts supprimés -->
+            <button *ngIf="contact.isDeleted" class="btn btn-success" (click)="restoreContact(contact)">Restaurer</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-
 
 <!-- Modal for Editing Contact -->
 <div *ngIf="contactToEdit" class="modal" tabindex="-1" style="display: block;" role="dialog">
