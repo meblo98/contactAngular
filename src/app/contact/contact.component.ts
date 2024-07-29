@@ -29,6 +29,7 @@ export class ContactComponent implements OnInit {
     this.loadContacts();
     this.filteredContacts = this.contacts;
   }
+  
 
   addContact(): void {
     if (this.nom && this.prenom && this.email) {
