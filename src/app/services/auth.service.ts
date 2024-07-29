@@ -18,6 +18,7 @@ export class AuthService {
 
   constructor() {}
 
+
   register(prenom: string, email: string, password: string, nom: string): boolean {
     const users = this.getUsers();
     const id = users.length ? users[users.length - 1].id + 1 : 1;
@@ -37,13 +38,19 @@ export class AuthService {
     return false;
   }
 
+
   logout(): void {
     localStorage.removeItem(this.currentUserKey);
   }
 
   getCurrentUser(): Utilisateur | null {
-    const user = localStorage.getItem(this.currentUserKey);
-    return user ? JSON.parse(user) : null;
+    try {
+      const user = localStorage.getItem(this.currentUserKey);
+      return user ? JSON.parse(user) : null;
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      return null;
+    }
   }
 
   private getUsers(): Utilisateur[] {

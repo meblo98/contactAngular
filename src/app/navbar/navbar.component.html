@@ -1,0 +1,22 @@
+<nav class="navbar bg-body-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand">Mes Contacts</a>
+    <div class="d-flex">
+      <input type="text" class="form-control" id="search" placeholder="Rechercher par mot clé Nom...">
+      <label for="search" class="form-label mt-2"></label>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+          {{ currentUser?.prenom }}
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="logout()">
+            <i class="bi bi-box-arrow-in-left"></i> Déconnexion
+          </a></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</nav>
