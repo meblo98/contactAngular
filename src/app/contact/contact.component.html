@@ -140,11 +140,20 @@
      <!-- Faire une recherche de Contact -->
   <div class="col-6 p-4 p-xl-5 border-top">
     <div class="row gy-3 gy-md-4 justify-content-between">
-
-      <div class="col">
-        <div *ngIf="filteredContacts.length === 0">
-          Vous n'avez enregistré(e)s aucun contact.
+      <div class="col-12">
+        <!-- Bouton pour afficher/masquer les contacts supprimés -->
+        <button class="btn btn-warning" (click)="showDeletedContacts()">
+          {{ showDeleted ? 'Cacher la corbeille' : 'Afficher la corbeille' }}
+        </button>
+        <div class="col-12">
+          <label for="search" class="form-label">Chercher un contact</label>
+          <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="searchContacts()" placeholder="Nom, prénom, email, téléphone">
         </div>
+      </div>
+
+
+      <div class="col-12">
+        <div *ngIf="filteredContacts.length === 0">Le contact n'existe pas.</div>
         <table class="table w-100" *ngIf="filteredContacts.length > 0">
           <thead>
             <tr>
@@ -155,17 +164,30 @@
           </thead>
           <tbody>
             <tr *ngFor="let contact of filteredContacts">
-              <td>{{ contact.prenom }} {{ contact.nom }}</td>
+              <td>{{ contact.prenom }}{{ contact.nom }}</td>
               <td>{{ contact.telephone }}</td>
               <td>
                 <button class="btn btn-info" (click)="viewDetails(contact)">
-                  Voir les détails
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                    <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+                  </svg>
                 </button>
+                <button class="btn btn-warning"  (click)="editContact(contact)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.854.146a.5.5 0 0 1 .708.708l-11 11a.5.5 0 0 1-.168.11l-4 1a.5.5 0 0 1-.641-.641l1-4a.5.5 0 0 1 .11-.168l11-11zM11.207 2l-.646-.646L4.5 7.414 5.146 8 11.207 2zM1.5 13.207l2.646-2.647-.707-.707L.793 12.5l-.5 2 2-.5zm5.354-6.5L3.5 10.5v.793l.293.293h.793l3.354-3.354-.707-.707z"/>
+                  </svg>
+                </button>
+                 <!-- Afficher le bouton Supprimer seulement pour les contacts non supprimés -->
+                 <button *ngIf="!contact.isDeleted" class="btn btn-danger" (click)="moveToTrash(contact)"><i class="bi bi-trash"></i></button>
+                  <!-- Afficher le bouton Restaurer seulement pour les contacts supprimés -->
+                  <button *ngIf="contact.isDeleted" class="btn btn-success" (click)="restoreContact(contact)"><i class="bi bi-recycle"></i></button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+
 
       <!-- Modal for Contact Details -->
       <div
@@ -218,6 +240,8 @@
 
 
 
+
+
  <!-- Faire une recherche de Contact -->
   <!-- <div class="p-4 p-xl-5 border-top">
     <div class="row gy-3 gy-md-4 justify-content-between">
@@ -257,7 +281,7 @@
           </tbody>
         </table>
       </div> -->
-
+<!-- <<<<<<< HEAD -->
 
 <!-- Modal for Editing Contact -->
 <div *ngIf="contactToEdit" class="modal" tabindex="-1" style="display: block;" role="dialog">
