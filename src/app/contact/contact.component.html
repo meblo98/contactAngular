@@ -125,81 +125,42 @@
         <td>{{ contact.email }}</td>
         <td>{{ contact.telephone }}</td>
         <td>
-          <button class="btn btn-info" (click)="viewDetails(contact)">details
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
-              <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
-            </svg>
-          </button>
-          <button class="btn btn-warning"  (click)="editContact(contact)">modifier
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-              <path d="M12.854.146a.5.5 0 0 1 .708.708l-11 11a.5.5 0 0 1-.168.11l-4 1a.5.5 0 0 1-.641-.641l1-4a.5.5 0 0 1 .11-.168l11-11zM11.207 2l-.646-.646L4.5 7.414 5.146 8 11.207 2zM1.5 13.207l2.646-2.647-.707-.707L.793 12.5l-.5 2 2-.5zm5.354-6.5L3.5 10.5v.793l.293.293h.793l3.354-3.354-.707-.707z"/>
-            </svg>
-          </button>
-           <!-- Afficher le bouton Supprimer seulement pour les contacts non supprimés -->
-           <button *ngIf="!contact.isDeleted" class="btn btn-danger" (click)="moveToTrash(contact)">Supprimer</button>
-            <!-- Afficher le bouton Restaurer seulement pour les contacts supprimés -->
-            <button *ngIf="contact.isDeleted" class="btn btn-success" (click)="restoreContact(contact)">Restaurer</button>
+          <button class="btn btn-info" (click)="viewDetails(contact)">Voir les détails</button>
+          
+          <!-- Afficher le bouton Supprimer seulement pour les contacts non supprimés -->
+          <button *ngIf="!contact.isDeleted" class="btn btn-danger" (click)="moveToTrash(contact)">Supprimer</button>
+          
+          <!-- Afficher le bouton Restaurer seulement pour les contacts supprimés -->
+          <button *ngIf="contact.isDeleted" class="btn btn-success" (click)="restoreContact(contact)">Restaurer</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- Modal for Editing Contact -->
-<div *ngIf="contactToEdit" class="modal" tabindex="-1" style="display: block;" role="dialog">
+
+
+<!-- Modal for Contact Details -->
+<div *ngIf="selectedContact" class="modal" tabindex="-1" style="display: block;" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modifier le Contact</h5>
+        <h5 class="modal-title">Détails du Contact</h5>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="updateContact()">
-          <div class="mb-3">
-            <label for="editNom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="editNom" [(ngModel)]="contactToEdit.nom" name="editNom" required>
-          </div>
-          <div class="mb-3">
-            <label for="editPrenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="editPrenom" [(ngModel)]="contactToEdit.prenom" name="editPrenom" required>
-          </div>
-          <div class="mb-3">
-            <label for="editEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="editEmail" [(ngModel)]="contactToEdit.email" name="editEmail" required>
-          </div>
-          <div class="mb-3">
-            <label for="editTelephone" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control" id="editTelephone" [(ngModel)]="contactToEdit.telephone" name="editTelephone">
-          </div>
-          <div class="mb-3">
-            <label for="editCreatedAt" class="form-label">Crée le</label>
-            <input type="date" class="form-control" id="editCreatedAt" [(ngModel)]="contactToEdit.createdAt" name="editCreatedAt" required>
-          </div>
-          <div class="mb-3">
-            <label for="editUpdatedAt" class="form-label">Modifié le</label>
-            <input type="date" class="form-control" id="editUpdatedAt" [(ngModel)]="contactToEdit.updatedAt" name="editUpdatedAt" required>
-          </div>
-          <div class="mb-3">
-            <label for="editCreatedBy" class="form-label">Crée par</label>
-            <input type="text" class="form-control" id="editCreatedBy" [(ngModel)]="contactToEdit.createdBy" name="editCreatedBy">
-          </div>
-          <div class="mb-3">
-            <label for="editUpdatedBy" class="form-label">Modifié par</label>
-            <input type="text" class="form-control" id="editUpdatedBy" [(ngModel)]="contactToEdit.updatedBy" name="editUpdatedBy">
-          </div>
-          <div class="mb-3">
-            <label for="editDescription" class="form-label">Description</label>
-            <textarea class="form-control" id="editDescription" [(ngModel)]="contactToEdit.description" name="editDescription" rows="3" required></textarea>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="closeEdit()">Fermer</button>
-            <button type="submit" class="btn btn-primary">Sauvegarder</button>
-          </div>
-        </form>
+        <p><strong>Nom:</strong> {{ selectedContact.nom }}</p>
+        <p><strong>Prénom:</strong> {{ selectedContact.prenom }}</p>
+        <p><strong>Email:</strong> {{ selectedContact.email }}</p>
+        <p><strong>Téléphone:</strong> {{ selectedContact.telephone }}</p>
+        <p><strong>Créé le:</strong> {{ selectedContact.createdAt | date }}</p>
+        <p><strong>Modifié le:</strong> {{ selectedContact.updatedAt | date }}</p>
+        <p><strong>Créé par:</strong> {{ selectedContact.createdBy }}</p>
+        <p><strong>Modifié par:</strong> {{ selectedContact.updatedBy }}</p>
+        <p><strong>Description:</strong> {{ selectedContact.description }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDetails()">Fermer</button>
       </div>
     </div>
   </div>
 </div>
-
-
-<app-detail-contact *ngIf="selectedContact" [contact]="selectedContact" (close)="closeDetails()"></app-detail-contact>
