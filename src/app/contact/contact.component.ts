@@ -1,23 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
+  constructor(private router: Router){
+
+  }
   nom: string = '';
   prenom: string = '';
   email: string = '';
   telephone: string = '';
   createdAt: Date = new Date();
   updatedAt: Date = new Date();
-  createdBy: string = '';
-  updatedBy: string = '';
   description: string = '';
   contacts: { nom: string; prenom: string; email: string; telephone: string; createdAt: Date; updatedAt: Date; createdBy: string; updatedBy: string ; description: string }[] = [];
 
@@ -25,15 +28,42 @@ export class ContactComponent implements OnInit {
   filteredContacts: any[] = [];
   searchTerm: string = '';
 
-  ngOnInit(): void {
-    this.loadContacts();
-    this.filteredContacts = this.contacts;
-  }
-  
+  currentUser: string = '';
 
+  ngOnInit(): void {
+    this.loadCurrentUser();
+    this.loadContacts();
+    this.filterContactsByUser();
+  }
+
+  loadCurrentUser(): void {
+    if (typeof localStorage !== 'undefined') {
+      const user = localStorage.getItem('currentUser');
+      if (user) {
+        this.currentUser = user;
+      }
+    }
+  }
+  logout() {
+
+    localStorage.removeItem('currentUser');
+
+    // Rediriger vers la page de connexion
+    this.router.navigate(['/utilisateur']);
+  }
   addContact(): void {
     if (this.nom && this.prenom && this.email) {
-      this.contacts.push({ nom: this.nom, prenom: this.prenom, email: this.email, telephone: this.telephone ,createdAt: new Date(), updatedAt: new Date(),createdBy: 'User1', updatedBy: 'User1', description: this.description });
+      this.contacts.push({
+        nom: this.nom,
+        prenom: this.prenom,
+        email: this.email,
+        telephone: this.telephone,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        createdBy: this.currentUser,
+        updatedBy: this.currentUser,
+        description: this.description
+      });
       this.saveContacts();
       this.nom = '';
       this.prenom = '';
@@ -41,10 +71,8 @@ export class ContactComponent implements OnInit {
       this.telephone = '';
       this.createdAt = new Date();
       this.updatedAt = new Date();
-      this.createdBy = 'User1';
-      this.updatedBy = 'User1';
       this.description = '';
-      this.filteredContacts = this.contacts;
+      this.filterContactsByUser();
     }
   }
 
@@ -63,6 +91,11 @@ export class ContactComponent implements OnInit {
     }
   }
 
+
+  filterContactsByUser(): void {
+    this.filteredContacts = this.contacts.filter(contact => contact.createdBy === this.currentUser);
+  }
+
   viewDetails(contact: any): void {
     this.selectedContact = contact;
   }
@@ -73,14 +106,15 @@ export class ContactComponent implements OnInit {
 
   searchContacts(): void {
     if (!this.searchTerm) {
-      this.filteredContacts = this.contacts;
+      this.filterContactsByUser();
     } else {
       const term = this.searchTerm.toLowerCase();
       this.filteredContacts = this.contacts.filter(contact =>
-        contact.nom.toLowerCase().includes(term) ||
+        contact.createdBy === this.currentUser &&
+        (contact.nom.toLowerCase().includes(term) ||
         contact.prenom.toLowerCase().includes(term) ||
         contact.email.toLowerCase().includes(term) ||
-        contact.telephone.toLowerCase().includes(term)
+        contact.telephone.toLowerCase().includes(term))
       );
     }
   }

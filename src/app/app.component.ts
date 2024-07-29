@@ -1,20 +1,19 @@
-import { Component } from '@angular/core';
-import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.service';
 import { RouterOutlet } from '@angular/router';
-import { ContactComponent } from "./contact/contact.component";
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
   standalone: true,
-// <<<<<<< HEAD
-//   imports: [RouterOutlet, ContactComponent,FormsModule,CommonModule],
-// =======
-  imports: [RouterOutlet, UtilisateurComponent],
-
+  selector: 'app-root',
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.getCurrentUser();
+  }
 }
