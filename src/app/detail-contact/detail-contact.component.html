@@ -1,1 +1,24 @@
-<p>detail-contact works!</p>
+<div *ngIf="contact" class="modal" tabindex="-1" style="display: block;" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Détails du Contact</h5>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nom:</strong> {{ contact.nom }}</p>
+        <p><strong>Prénom:</strong> {{ contact.prenom }}</p>
+        <p><strong>Email:</strong> {{ contact.email }}</p>
+        <p><strong>Téléphone:</strong> {{ contact.telephone }}</p>
+        <p><strong>Créé le:</strong> {{ contact.createdAt | date }}</p>
+        <p><strong>Modifié le:</strong> {{ contact.updatedAt | date }}</p>
+        <p><strong>Créé par:</strong> {{ contact.createdBy }}</p>
+        <p><strong>Modifié par:</strong> {{ contact.updatedBy }}</p>
+        <p><strong>Description:</strong> {{ contact.description }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDetails()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
