@@ -33,7 +33,7 @@ export class ContactComponent implements OnInit {
   }
 
   addContact(): void {
-    if (this.nom && this.prenom && this.email) {
+    if (this.nom && this.prenom && this.email && this.telephone) {
       this.contacts.push({ nom: this.nom, prenom: this.prenom, email: this.email, telephone: this.telephone ,createdAt: new Date(), updatedAt: new Date(),createdBy: 'User1', updatedBy: 'User1', description: this.description });
       this.saveContacts();
       this.nom = '';
