@@ -164,7 +164,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let contact of filteredContacts">
-              <td>{{ contact.prenom }}{{ contact.nom }}</td>
+              <td>{{ contact.prenom }} {{ contact.nom }}</td>
               <td>{{ contact.telephone }}</td>
               <td>
                 <button class="btn btn-info" (click)="viewDetails(contact)">
@@ -190,7 +190,7 @@
 
 
       <!-- Modal for Contact Details -->
-      <!-- <div
+      <div
         *ngIf="selectedContact"
         class="modal"
         tabindex="-1"
@@ -207,7 +207,7 @@
               <p><strong>Prénom:</strong> {{ selectedContact.prenom }}</p>
               <p><strong>Email:</strong> {{ selectedContact.email }}</p>
               <p><strong>Téléphone:</strong> {{ selectedContact.telephone }}</p>
-              <p>
+              <!-- <p>
                 <strong>Créé le:</strong> {{ selectedContact.createdAt | date }}
               </p>
               <p>
@@ -217,7 +217,7 @@
               <p><strong>Créé par:</strong> {{ selectedContact.createdBy }}</p>
               <p>
                 <strong>Modifié par:</strong> {{ selectedContact.updatedBy }}
-              </p>
+              </p> -->
               <p>
                 <strong>Description:</strong> {{ selectedContact.description }}
               </p>
@@ -233,55 +233,11 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
   </section>
 
-
-
-
-
- <!-- Faire une recherche de Contact -->
-  <!-- <div class="p-4 p-xl-5 border-top">
-    <div class="row gy-3 gy-md-4 justify-content-between">
-      <div class="col-12">
-        <label for="search" class="form-label">Chercher un contact</label>
-        <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="searchContacts()" placeholder="Nom, prénom, email, téléphone">
-      </div>
-
-      <div class="col-12">
-        <div *ngIf="filteredContacts.length === 0">Vous n'avez enregistré(e)s aucun contact.</div>
-        <table class="table" *ngIf="filteredContacts.length > 0">
-          <thead>
-            <tr>
-              <th>Prénom et Nom</th>
-              <th>Téléphone</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let contact of filteredContacts">
-              <td>{{ contact.prenom }} {{ contact.nom }}</td>
-              <td>{{ contact.telephone }}</td>
-              <td>
-                <button class="btn btn-info" (click)="viewDetails(contact)">details
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
-                    <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
-                  </svg>
-                </button>
-                <button class="btn btn-warning"  (click)="editContact(contact)">modifier
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                    <path d="M12.854.146a.5.5 0 0 1 .708.708l-11 11a.5.5 0 0 1-.168.11l-4 1a.5.5 0 0 1-.641-.641l1-4a.5.5 0 0 1 .11-.168l11-11zM11.207 2l-.646-.646L4.5 7.414 5.146 8 11.207 2zM1.5 13.207l2.646-2.647-.707-.707L.793 12.5l-.5 2 2-.5zm5.354-6.5L3.5 10.5v.793l.293.293h.793l3.354-3.354-.707-.707z"/>
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
-<!-- <<<<<<< HEAD -->
 
 <!-- Modal for Editing Contact -->
 <div *ngIf="contactToEdit" class="modal" tabindex="-1" style="display: block;" role="dialog">
@@ -308,7 +264,7 @@
             <label for="editTelephone" class="form-label">Téléphone</label>
             <input type="tel" class="form-control" id="editTelephone" [(ngModel)]="contactToEdit.telephone" name="editTelephone">
           </div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="editCreatedAt" class="form-label">Crée le</label>
             <input type="date" class="form-control" id="editCreatedAt" [(ngModel)]="contactToEdit.createdAt" name="editCreatedAt" required>
           </div>
@@ -323,7 +279,7 @@
           <div class="mb-3">
             <label for="editUpdatedBy" class="form-label">Modifié par</label>
             <input type="text" class="form-control" id="editUpdatedBy" [(ngModel)]="contactToEdit.updatedBy" name="editUpdatedBy">
-          </div>
+          </div> -->
           <div class="mb-3">
             <label for="editDescription" class="form-label">Description</label>
             <textarea class="form-control" id="editDescription" [(ngModel)]="contactToEdit.description" name="editDescription" rows="3" required></textarea>
