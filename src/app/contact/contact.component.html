@@ -247,7 +247,7 @@
         <h5 class="modal-title">Modifier le Contact</h5>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="updateContact()">
+        <form *ngIf="contactToEdit" (ngSubmit)="updateContact()">
           <div class="mb-3">
             <label for="editNom" class="form-label">Nom</label>
             <input type="text" class="form-control" id="editNom" [(ngModel)]="contactToEdit.nom" name="editNom" required>

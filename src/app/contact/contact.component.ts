@@ -40,7 +40,7 @@ export class ContactComponent implements OnInit {
   selectedContact: Contact | null = null;
   filteredContacts: Contact[] = [];
   searchTerm: string = '';
-  contactToEdit: any = null;
+  contactToEdit: Contact | null = null;
   currentUser: string = '';
   showDeleted: boolean = false;
 
@@ -146,18 +146,31 @@ export class ContactComponent implements OnInit {
   }
 
   editContact(contact: Contact): void {
-    this.contactToEdit = { ...contact };
+    this.contactToEdit = contact;
   }
 
+
   updateContact(): void {
-    const index = this.contacts.findIndex(c => c.email === this.contactToEdit.email);
-    if (index !== -1) {
-      this.contacts[index] = this.contactToEdit;
-      this.saveContacts();
-      this.contactToEdit = null;
-      this.filterContactsByUser();
+    if (this.contactToEdit) {
+      const index = this.contacts.findIndex(c => c.id === this.contactToEdit?.id);
+      if (index !== 1) {
+        // Mise à jour seulement des champs modifiés
+        const updatedContact = this.contacts[index];
+        updatedContact.nom = this.contactToEdit.nom;
+        updatedContact.prenom = this.contactToEdit.prenom;
+        updatedContact.email = this.contactToEdit.email;
+        updatedContact.telephone = this.contactToEdit.telephone;
+        updatedContact.description = this.contactToEdit.description;
+        updatedContact.updatedAt = new Date();
+        updatedContact.updatedBy = this.currentUser;
+
+        this.saveContacts();
+        this.contactToEdit = null;
+        this.filterContactsByUser();
+      }
     }
   }
+
 
   closeEdit(): void {
     this.contactToEdit = null;
